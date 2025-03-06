@@ -7,7 +7,7 @@ const marginTop = 30;
 const marginRight = 0;
 const marginBottom = 40;
 const marginLeft = 160;
-const width = 500;
+const width = Math.min(500, window.innerWidth - 64);
 const radius = 0;
 const height = Math.ceil((alphabet.length + 0.1) * barHeight) + marginTop + marginBottom;
 
@@ -26,9 +26,15 @@ const svg = d3.create("svg")
     .attr("height", height)
     .attr("viewBox", [0, 0, width, height])
     .attr("style",
-        `max-width: 100%; height: auto;
-        font: 10px sans-serif; background-color: #faf6f6;
-        padding: 16px; border-radius: 16px;`);
+        `
+        max-width: 100%;
+        height: auto;
+        font: 10px sans-serif;
+        background-color: #faf6f6;
+        padding: 16px;
+        border-radius: 16px;
+        margin-top: 16px;
+        `);
 
 // Tạo các thanh màu xanh
 svg.append("g")
@@ -78,4 +84,9 @@ svg.append("g")
     .call(g => g.selectAll(".tick line").attr("stroke", "none"))
     .call(g => g.selectAll(".tick text").attr("fill", "#7c7c7c"));
 
-container.append(svg.node());
+chart.append(svg.node());
+
+content.innerHTML = `
+  The chart illustrates the number of users who are studying for a variety of reasons.<br>
+  There is a large difference in users' interests among six categories. Most users, around 22,000, want to study for the purpose of "Job opportunities".
+`;

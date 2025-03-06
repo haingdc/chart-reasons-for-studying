@@ -9,10 +9,71 @@
   <meta name="mobile-web-app-capable" content="yes">
   <link rel="stylesheet" href="style.css">
   <meta name="description" content="A simple hello world HTML example.">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+    @layer defaut, components, custom-style;
+
+    @layer default {
+      body {
+        background-color: #f3f3f3;
+        font-family: Nunito;
+        margin: 0;
+      }
+
+      @media (min-width: 600px) {
+        body {
+          padding-top: 60px;
+        }
+      }
+
+      .uppercase {
+        text-transform: uppercase;
+      }
+
+      .bold {
+        font-weight: bold;
+      }
+    }
+
+    @layer components {
+      #container {
+        container-type: inline-size;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        max-width: 800px;
+        margin: auto;
+        align-items: center;
+      }
+
+      #chart {
+        flex: 1 0 auto;
+        display: flex;
+        justify-content: center;
+      }
+
+      #content {
+        padding: 16px;
+        font-size: 24px;
+        font-weight: bold;
+        max-width: 500px;
+      }
+
+      @container (min-width: 600px) {
+        #container {
+          flex-direction: row;
+        }
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <div id="container"></div>
+  <div id="container">
+    <div id="chart"></div>
+    <div id="content"></div>
+  </div>
 </body>
 <script src="main.js"></script>
 <script type="module" src="main2.mjs"></script>
