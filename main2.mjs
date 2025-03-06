@@ -1,5 +1,5 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
-import alphabet from "./data.json" with { type: "json" };
+import data from "./data.json" with { type: "json" };
 
 // Specify the chart’s dimensions, based on a bar’s height.
 const barHeight = 42;
@@ -7,17 +7,17 @@ const marginTop = 30;
 const marginRight = 0;
 const marginBottom = 40;
 const marginLeft = 160;
-const width = Math.min(500, window.innerWidth - 64);
-const radius = 0;
-const height = Math.ceil((alphabet.length + 0.1) * barHeight) + marginTop + marginBottom;
+const width = Math.min(500, window.innerWidth - 64); // màn hình dưới 500px sẽ lấy theo kích thước window trừ đi khoảng cáchh 2 bên 
+const radius = 4;
+const height = Math.ceil((data.length + 0.1) * barHeight) + marginTop + marginBottom;
 
-// Create the scales.
+// Qui định trục ngang dọc
 const x = d3.scaleLinear()
-    .domain([0, d3.max(alphabet, d => d.frequency)])
+    .domain([0, d3.max(data, d => d.frequency)])
     .range([marginLeft, width - marginRight]);
 
 const y = d3.scaleBand()
-    .domain(d3.sort(alphabet, d => -d.frequency).map(d => d.letter))
+    .domain(d3.sort(data, d => -d.frequency).map(d => d.letter))
     .rangeRound([marginTop, height - marginBottom])
     .padding(0.6);
 
@@ -40,7 +40,7 @@ const svg = d3.create("svg")
 svg.append("g")
     .attr("fill", "#3f7aab")
     .selectAll()
-    .data(alphabet)
+    .data(data)
     .join("rect")
     .attr("x", x(0))
     .attr("y", (d) => y(d.letter))
@@ -48,26 +48,26 @@ svg.append("g")
     .attr("height", y.bandwidth())
     .attr("rx", radius);
 
+// Hiển thị con số của mỗi thanh
 const format = x.tickFormat(20/* , "%" */);
-// Hiển thị giá trị của mỗi thanh
 svg.append("g")
     .attr("fill", "#fff")
     .attr("text-anchor", "end")
     .selectAll()
-    .data(alphabet)
+    .data(data)
     .join("text")
     .attr("x", (d) => x(d.frequency))
     .attr("y", (d) => y(d.letter) + y.bandwidth() / 2)
     .attr("dx", -6)
     .attr("dy", "0.35em")
     .text((d) => format(d.frequency))
-    // condition: nếu giá trị nhỏ 
+    // condition: nếu giá trị nhỏ đẩy nó sang phải bằng dx và text-anchor
     .call((text) => text.filter(d => x(d.frequency) - x(0) < 20) // short bars
         .attr("dx", +4)
         .attr("fill", "#3c3c43")
         .attr("text-anchor", "start"));
 
-// Tạo trục x
+// Thêm trục x vào svg
 const formatXTick = d => d === 0 ? "0K" : d3.format("~s")(d);
 svg.append("g")
     .attr("transform", `translate(0,${height - marginBottom + 30})`)
@@ -76,7 +76,7 @@ svg.append("g")
     .call(g => g.selectAll(".tick line").attr("stroke", "#7e7c84"))
     .call(g => g.select(".domain").remove());
 
-// Tao trục y
+// Thêm trục y vào svg
 svg.append("g")
     .attr("transform", `translate(${marginLeft},0)`)
     .call(d3.axisLeft(y).tickSizeOuter(0))
