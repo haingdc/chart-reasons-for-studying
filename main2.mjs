@@ -88,5 +88,5 @@ chart.append(svg.node());
 
 content.innerHTML = `
   The chart illustrates the number of users who are studying for a variety of reasons.<br>
-  There is a large difference in users' interests among six categories. Most users, around 22,000, want to study for the purpose of "Job opportunities".
+  There is a large difference in users' interests among six categories. Most users, around 22,000, want to study for the purpose of "Job opportunities". "Education" is nearly as popular, chosen by almost 19,000 users. Around 50% are interested in the next three purposes "Live &  Work Abroad", "Other" and "Culture and Entertainment". It's clear that very few people want to study for "Friends and Family".
 `;
